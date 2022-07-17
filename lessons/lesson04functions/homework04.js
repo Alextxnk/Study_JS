@@ -97,3 +97,45 @@ let getStatusIncome = function() {
    }
 };
 console.log(getStatusIncome());
+
+
+// доп задание 
+/* 1) Создайте функцию, которая принимает 1 аргумент (название произвольное)
+   — Если в качестве аргумента передана не строка - функция оповещает об этом пользователя
+   — В полученной (как аргумент) строке функция должна убрать все пробелы в начале и в конце
+   — Если строка более 30 знаков - то после 30го символа часть текста скрывается и вместо них появляются три точки (...) 
+*/
+
+console.log('----------------------------------');
+
+let wordTrim = function(word) {
+   if (typeof word !== 'string') {
+      console.log('------------');
+      console.log('type of word:', typeof word);
+
+      return('Передайте в качестве аргумента строку!');
+   } else if (typeof word === 'string') {
+      console.log('------------');
+      console.log('type of word:', typeof word);
+      console.log('word: ', word);
+      console.log('length of word:', word.length);
+
+      let trimWord = word.trim(); // удаляем пробелы в начале и конце строки 
+      console.log('trim word: ', trimWord);
+      console.log('length of trimWord:', trimWord.length);
+
+      if (trimWord.length >= 30) {
+         let substrTrimWord = trimWord.slice(0, 30); // после 30го символа часть текста скрывается
+         console.log('length of substrTrimWord:', substrTrimWord.length);
+
+         return('received word: ' + substrTrimWord + '...');
+      } else {
+         return('received word: ' + trimWord);
+      }
+   }
+};
+
+console.log(wordTrim('   Hello world! Lorem ipsum dolor sit amet, consectetur adipisicing elit.   '));
+console.log(wordTrim('            Hello'));
+console.log(wordTrim(2));
+console.log(wordTrim(true));
