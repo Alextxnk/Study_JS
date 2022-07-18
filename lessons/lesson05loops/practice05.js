@@ -1,13 +1,28 @@
 'use strict';
 
 
+let isNumber = function(n) {
+   return !isNaN(parseFloat(n)) && isFinite(n); // isFinite возвращает true, если число конечное и в обратном случае - false 
+};
+
+
 // объявляем и инициализируем переменные
-let money = +prompt('Ваш месячный доход?', 60000);
-const income = 'Freelance'; // дополнительный заработок
+let money;
+let income = 'Freelance'; // дополнительный заработок
 let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 
 'Flat, iTunes, Apple Music, Food, Gym, Taxi');
 let deposit = confirm('Есть ли у вас депозит в банке?');
-const mission = 400000;
+let mission = 400000;
+
+
+let start = function() {
+   money = prompt('Ваш месячный доход?', 60000);
+
+   while (!isNumber(money)) {
+      money = prompt('Ваш месячный доход?', 60000);
+   }
+};
+start();
 
 
 // первая функция, выводит типы заданных переменных 
@@ -29,15 +44,20 @@ console.log('Цель заработать ' + mission + ' рублей');
 
 // 1) Объявить функцию getExpensesMonth. Функция возвращает сумму всех обязательных расходов за месяц
 
-let expenses1 = prompt('Введите обязательную статью расходов?' , 'Flat'); 
-let amount1 = +prompt('Во сколько это обойдется?' , 20000); 
-
-let expenses2 = prompt('Введите обязательную статью расходов?' , 'Food'); 
-let amount2 = +prompt('Во сколько это обойдется?' , 11500); 
+let expenses = [];
 
 // функция возвращает сумму расходов за месяц
 let getExpensesMonth = function() {
-   return amount1 + amount2;
+
+   let sum = 0;
+
+   for (let i = 0; i < 2; i++) {
+
+      expenses[i] = prompt('Введите обязательную статью расходов?' , 'Flat');
+      sum += +prompt('Во сколько это обойдется?' , 13750);
+   }
+   console.log('expenses: ', expenses);
+   return sum;
 };
 
 // присваиваем значение функции в переменную и выводим его
@@ -97,46 +117,3 @@ let getStatusIncome = function() {
    }
 };
 console.log(getStatusIncome());
-
-
-// доп задание 
-/* 1) Создайте функцию, которая принимает 1 аргумент (название произвольное)
-   — Если в качестве аргумента передана не строка - функция оповещает об этом пользователя
-   — В полученной (как аргумент) строке функция должна убрать все пробелы в начале и в конце
-   — Если строка более 30 знаков - то после 30го символа часть текста скрывается 
-   и вместо них появляются три точки (...) 
-*/
-
-console.log('----------------------------------');
-
-let wordTrim = function(word) {
-   if (typeof word !== 'string') {
-      console.log('------------');
-      console.log('type of word:', typeof word);
-
-      return('Передайте в качестве аргумента строку!');
-   } else if (typeof word === 'string') {
-      console.log('------------');
-      console.log('type of word:', typeof word);
-      console.log('word: ', word);
-      console.log('length of word:', word.length);
-
-      let trimWord = word.trim(); // удаляем пробелы в начале и конце строки 
-      console.log('trim word: ', trimWord);
-      console.log('length of trimWord:', trimWord.length);
-
-      if (trimWord.length >= 30) {
-         let substrTrimWord = trimWord.slice(0, 30); // после 30го символа часть текста скрывается
-         console.log('length of substrTrimWord:', substrTrimWord.length);
-
-         return('received word: ' + substrTrimWord + '...');
-      } else {
-         return('received word: ' + trimWord);
-      }
-   }
-};
-
-console.log(wordTrim('   Hello world! Lorem ipsum dolor sit amet, consectetur adipisicing elit.   '));
-console.log(wordTrim('            Hello'));
-console.log(wordTrim(2));
-console.log(wordTrim(true));
