@@ -161,7 +161,7 @@ console.log('--------------');
 // 53, 59, 61, 67, 71, 73, 79, 83, 89, 97
 
 
-let primeNumbers = function(){
+let primeNumbers = function() {
    let number;
    let maxNumber = 100;
    let divisor; // делитель 
