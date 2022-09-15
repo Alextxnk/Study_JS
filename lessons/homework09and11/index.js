@@ -23,6 +23,7 @@ let salaryAmount = document.querySelector('.salary-amount'); // Сумма
 console.log(salaryAmount);
 
 // Дополнительный доход 
+let incomeItems = document.querySelectorAll('.income-items'); // два инпута
 let incomeTitle = document.querySelector('.income-title'); // Наименование
 console.log(incomeTitle);
 let incomeAmount = document.querySelector('.income-amount'); // Сумма
@@ -139,19 +140,19 @@ appData.start = function () {
    console.log('appData.budget: ', appData.budget);
 
    // потом добавить здесь вызов функций
+   appData.getIncome();
 };
 appData.start();
 
 
 // когда нажимаем на кнопку +, нужно добавить инпуты
 appData.addIncomeBlock = function() {
-   let incomeItems = document.querySelectorAll('.income-items');
+   // let incomeItems = document.querySelectorAll('.income-items'); // 26 строка 
    console.log('incomeItems: ', incomeItems);
    console.log(incomeItems[0].parentNode);
 
    let cloneIncomeItem = incomeItems[0].cloneNode(true); // делаем глубокое клонирование
-   // добавляем в родительскую ноду перед кнопкой 
-   incomeItems[0].parentNode.insertBefore(cloneIncomeItem, incomePlus); 
+   incomeItems[0].parentNode.insertBefore(cloneIncomeItem, incomePlus); // добавляем в родительскую ноду перед кнопкой 
 
    if (incomeItems.length === 2) {
       incomePlus.style.display = 'none';
@@ -161,7 +162,9 @@ appData.addIncomeBlock = function() {
 
 // получение данных
 appData.getIncome = function() {
-
+   incomeItems.forEach(function(item) {
+      console.log('item: ', item);
+   });
 };
 
 
