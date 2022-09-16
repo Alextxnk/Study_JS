@@ -24,6 +24,7 @@ console.log(salaryAmount);
 
 // Дополнительный доход 
 let incomeItems = document.querySelectorAll('.income-items'); // два инпута
+// -----------------------------------------------------------------------
 let incomeTitle = document.querySelector('.income-title'); // Наименование
 console.log(incomeTitle);
 let incomeAmount = document.querySelector('.income-amount'); // Сумма
@@ -33,7 +34,7 @@ console.log(incomeAmount);
 let additionalIncomeItems = document.querySelectorAll('.additional_income-item'); // Наименование
 console.log(additionalIncomeItems);
 
-// Обязательные расходы
+// Обязательные расходы --------------------------------------------------
 let expensesTitle = document.querySelector('.expenses-title'); // Наименование
 console.log(expensesTitle);
 let expensesAmount = document.querySelector('.expenses-amount'); // Сумма
@@ -141,8 +142,10 @@ appData.start = function () {
 
    // потом добавить здесь вызов функций
    appData.getIncome();
+   appData.getAddExpenses();
+   appData.showResult();
 };
-appData.start();
+// appData.start();
 
 
 // когда нажимаем на кнопку +, нужно добавить инпуты
@@ -153,8 +156,9 @@ appData.addIncomeBlock = function() {
 
    let cloneIncomeItem = incomeItems[0].cloneNode(true); // делаем глубокое клонирование
    incomeItems[0].parentNode.insertBefore(cloneIncomeItem, incomePlus); // добавляем в родительскую ноду перед кнопкой 
+   incomeItems = document.querySelectorAll('.income-items'); // делаем снова поиск всех элементов
 
-   if (incomeItems.length === 2) {
+   if (incomeItems.length === 3) {
       incomePlus.style.display = 'none';
    }
 };
@@ -164,26 +168,40 @@ appData.addIncomeBlock = function() {
 appData.getIncome = function() {
    incomeItems.forEach(function(item) {
       console.log('item: ', item);
+      let itemIncome = item.querySelector('.income-title').value;
+      let cashIncome = item.querySelector('.income-amount').value;
+
+      if (!appData.isEmptyStr(itemIncome) && !appData.isEmptyStr(cashIncome) && !appData.isNumber(itemIncome) && appData.isNumber(cashIncome)) {
+         appData.income[itemIncome] = Number(cashIncome); // записываем в объект [ключ] = значение
+      } else {
+         alert('Ошибка, неправильно заполнена форма!');
+      }
+   });
+   console.log(appData.income);
+};
+
+
+// вывод результатов
+appData.showResult = function() {
+   budgetMonthValue.value = appData.budget; // Доход за месяц
+   // с помощью метода join разобьем на строку
+   additionalExpensesValue.value = appData.addExpenses.join(', '); // Возможные расходы 
+};
+
+
+// получение данных
+appData.getAddExpenses = function() {
+   // с помощью метода split соберем в массив
+   let addExpenses = additionalExpensesItem.value.split(','); // Возможные расходы
+   addExpenses.forEach(function(item) {
+      if (item !== '') {
+         appData.addExpenses.push(item);
+      }
    });
 };
 
 
 /* appData.asking = function () {
-
-   if (confirm('Есть ли у вас дополнительный источник заработка?')) {
-      let itemIncome, cashIncome;
-
-      do {
-         itemIncome = prompt('Какой у вас есть дополнительный заработок?', 'Freelance');
-      }
-      while (appData.isNumber(itemIncome) || appData.isEmptyStr(itemIncome) || typeof itemIncome !== 'string');
-
-      do {
-         cashIncome = prompt('Сколько в месяц вы на этом зарабатываете?', 15000);
-      }
-      while (!appData.isNumber(cashIncome));
-      appData.income[itemIncome] = Number(cashIncome);
-   }
 
    let addExpenses;
 
@@ -192,6 +210,7 @@ appData.getIncome = function() {
       'Flat, iTunes, Apple Music, Food, Gym, Taxi');
    }
    while (appData.isNumber(addExpenses) || appData.isEmptyStr(addExpenses) || typeof addExpenses !== 'string');
+
    appData.addExpenses = addExpenses.toLowerCase().split(', ');
    console.log('arr to Lower Case:', appData.addExpenses);
    appData.deposit = confirm('Есть ли у вас депозит в банке?');
@@ -204,6 +223,10 @@ appData.getIncome = function() {
    let concatStr = appData.addExpenses.join(', ');
    console.log('str to Upper Case:', concatStr);
 
+
+
+   // -------------------------------------------
+   // не надо 
    let amount, sum;
    for (let i = 0; i < 2; i++) {
       do {
@@ -217,6 +240,9 @@ appData.getIncome = function() {
       while (!appData.isNumber(sum));
       appData.expenses[amount] = Number(sum);
    }
+   // ----------------------------------------------
+
+
 };
 appData.asking();
 
