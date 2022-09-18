@@ -178,7 +178,7 @@ let appData = {
 
    // вывод результатов
    showResult: function() {
-      budgetMonthValue.value = appData.budget; // Месячный доход
+      budgetMonthValue.value = appData.budget + appData.incomeMonth; // Месячный доход
       budgetDayValue.value = appData.budgetDay; // Дневной бюджет
       expensesMonthValue.value = appData.expensesMonth; // Расход за месяц
       // с помощью метода join разобьем на строку
