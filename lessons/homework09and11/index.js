@@ -174,7 +174,10 @@ let appData = {
    },
 
    // Период расчета
-
+   getPeriodSelect: function(event) {
+      let periodAmount = document.querySelector('.period-amount');
+      periodAmount.textContent = `${event.target.value}`;
+   },
 
    // вывод результатов
    showResult: function() {
@@ -215,3 +218,4 @@ let appData = {
 start.addEventListener('click', appData.start); // нажатие на кнопку Рассчитать
 incomePlus.addEventListener('click', appData.addIncomeBlock); // нажатие на первую кнопку + 
 expensesPlus.addEventListener('click', appData.addExpensesBlock); // нажатие на вторую кнопку + 
+periodSelect.addEventListener('change', appData.getPeriodSelect); // Период расчета
