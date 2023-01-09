@@ -6,8 +6,6 @@ const headerInput = document.querySelector('.header-input'); // инпут фо�
 const todoList = document.querySelector('.todo-list'); // новые дела
 const todoCompleted = document.querySelector('.todo-completed'); // выполненые дела
 
-console.log(headerInput);
-
 // массив дел
 const todoData = [
    /* {
