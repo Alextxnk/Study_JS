@@ -6,6 +6,20 @@ const headerInput = document.querySelector('.header-input'); // инпут фо�
 const todoList = document.querySelector('.todo-list'); // новые дела
 const todoCompleted = document.querySelector('.todo-completed'); // выполненые дела
 
+// функция проверяет, чтоб не была введена пустая строка
+const isEmptyStr = function (str) {
+   if (typeof str === 'undefined' || !str || str.length === 0 || str === "" ||
+      !/[^\s]/.test(str) || /^\s*$/.test(str) || str.replace(/\s/g, "") === "") {
+      return true;
+   } else {
+      return false;
+   }
+};
+
+const removeArrEl = (arr, value) => {
+   return arr.filter(el => el !== value);
+};
+
 // массив дел
 const todoData = [
    /* {
@@ -22,6 +36,23 @@ const render = function() {
    todoList.textContent = '';
    todoCompleted.textContent = '';
 
+   /* for (let i = 0; i < localStorage.length; i++) {
+      let key = localStorage.key(i);
+      let value = localStorage.getItem(localStorage.key(i));
+
+      const li = document.createElement('li');
+      li.classList.add('todo-item');
+
+      li.innerHTML = `
+      <span class="text-todo">${key}</span>
+      <div class="todo-buttons">
+         <button class="todo-remove"></button>
+         <button class="todo-complete"></button>
+      </div>
+      `;
+   } */
+
+   
    todoData.forEach(function(item) {
       const li = document.createElement('li');
       li.classList.add('todo-item');
@@ -40,6 +71,16 @@ const render = function() {
          todoList.append(li);
       }
 
+      const toDoDeleteBtn = li.querySelector('.todo-remove');
+      toDoDeleteBtn.addEventListener('click', function() {
+         console.log('delete');
+         // console.log(removeArrEl(todoData, item.value));
+         // console.log(item.value);
+         // li.innerHTML = ``;
+         // render(); // рекурсивно вызываем функцию
+         localStorage.removeItem(item.value);
+      });
+
       const toDoCompleteBtn = li.querySelector('.todo-complete');
       toDoCompleteBtn.addEventListener('click', function() {
          item.completed = !item.completed;
@@ -57,14 +98,19 @@ todoControl.addEventListener('submit', function(event) {
       completed: false
    };
 
-   todoData.push(newTodo);
-   event.target.reset(); // очищаем поля формы 
+   if (isEmptyStr(headerInput.value)) {
+      alert('Нельзя отправлять пустую строку!');
+   } else {
+      localStorage.setItem(headerInput.value,false);
+      todoData.push(newTodo);
+      event.target.reset(); // очищаем поля формы 
+   }
 
    render(); // после вызываем рендер, чтоб у нас обновилась страница 
 });
 
 render(); // вызываем ее, как только запустилась страница 
-
+console.log(todoData);
 
 // что нужно реализовать:
 // удаление записи
