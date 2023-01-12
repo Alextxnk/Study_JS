@@ -34,7 +34,7 @@ const render = function () {
    }
 
    let uniq = Array.from(new Set(todoData));
-   console.log(uniq);
+   // console.log(uniq);
 
    uniq.forEach(function (item) {
       const li = document.createElement('li');
@@ -63,6 +63,7 @@ const render = function () {
       const toDoCompleteBtn = li.querySelector('.todo-complete');
       toDoCompleteBtn.addEventListener('click', function () {
          item.completed = !item.completed;
+         console.log('complete');
          render(); // рекурсивно вызываем функцию
       });
 
@@ -82,8 +83,6 @@ todoControl.addEventListener('submit', function (event) {
       alert('Нельзя отправлять пустую строку!');
    } else {
       localStorage.setItem(headerInput.value, JSON.stringify(newTodo));
-      // todoData.push(newTodo);
-
       event.target.reset(); // очищаем поля формы 
    }
 
@@ -91,10 +90,3 @@ todoControl.addEventListener('submit', function (event) {
 });
 
 render(); // вызываем ее, как только запустилась страница 
-// console.log(todoData);
-
-// что нужно реализовать:
-// удаление записи
-// после добавления дела, поле "Какие планы?" должно очищаться
-// нельзя добавлять пустое поле
-// сохранять все необходимо в Local Storage и записывать из нее в массив todoData
