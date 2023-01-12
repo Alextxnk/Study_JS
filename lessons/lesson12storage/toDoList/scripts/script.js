@@ -34,7 +34,6 @@ const render = function () {
    }
 
    let uniq = Array.from(new Set(todoData));
-   // console.log(uniq);
 
    uniq.forEach(function (item) {
       const li = document.createElement('li');
@@ -63,7 +62,12 @@ const render = function () {
       const toDoCompleteBtn = li.querySelector('.todo-complete');
       toDoCompleteBtn.addEventListener('click', function () {
          item.completed = !item.completed;
-         console.log('complete');
+
+         localStorage.setItem(item.value, JSON.stringify({
+            value: item.value,
+            completed: item.completed
+         }));
+
          render(); // рекурсивно вызываем функцию
       });
 
