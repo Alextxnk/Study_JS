@@ -19,6 +19,7 @@ const isEmptyStr = function (str) {
 
 
 const render = function () {
+   // очищаем страницу
    todoList.textContent = '';
    todoCompleted.textContent = '';
 
@@ -33,8 +34,6 @@ const render = function () {
    }
 
    let uniq = Array.from(new Set(todoData));
-
-   //console.log(todoData);
    console.log(uniq);
 
    uniq.forEach(function (item) {
