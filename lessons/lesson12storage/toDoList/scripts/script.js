@@ -6,6 +6,7 @@ const headerInput = document.querySelector('.header-input'); // инпут фо�
 const todoList = document.querySelector('.todo-list'); // новые дела
 const todoCompleted = document.querySelector('.todo-completed'); // выполненые дела
 
+
 // функция проверяет, чтоб не была введена пустая строка
 const isEmptyStr = function (str) {
    if (typeof str === 'undefined' || !str || str.length === 0 || str === "" ||
@@ -16,44 +17,27 @@ const isEmptyStr = function (str) {
    }
 };
 
-const removeArrEl = (arr, value) => {
-   return arr.filter(el => el !== value);
-};
 
-// массив дел
-const todoData = [
-   /* {
-      value: 'Сварить кофе',
-      completed: false
-   },
-   {
-      value: 'Помыть посуду',
-      completed: true
-   } */
-];
-
-const render = function() {
+const render = function () {
    todoList.textContent = '';
    todoCompleted.textContent = '';
 
-   /* for (let i = 0; i < localStorage.length; i++) {
+   // массив дел
+   const todoData = [];
+
+   for (let i = 0; i < localStorage.length; i++) {
       let key = localStorage.key(i);
-      let value = localStorage.getItem(localStorage.key(i));
+      let value = localStorage.getItem(key);
+      let tasks = JSON.parse(value);
+      todoData.push(tasks);
+   }
 
-      const li = document.createElement('li');
-      li.classList.add('todo-item');
+   let uniq = Array.from(new Set(todoData));
 
-      li.innerHTML = `
-      <span class="text-todo">${key}</span>
-      <div class="todo-buttons">
-         <button class="todo-remove"></button>
-         <button class="todo-complete"></button>
-      </div>
-      `;
-   } */
+   //console.log(todoData);
+   console.log(uniq);
 
-   
-   todoData.forEach(function(item) {
+   uniq.forEach(function (item) {
       const li = document.createElement('li');
       li.classList.add('todo-item');
 
@@ -65,24 +49,20 @@ const render = function() {
       </div>
       `;
 
-      if(item.completed) {
+      if (item.completed) {
          todoCompleted.append(li);
       } else {
          todoList.append(li);
       }
 
       const toDoDeleteBtn = li.querySelector('.todo-remove');
-      toDoDeleteBtn.addEventListener('click', function() {
-         console.log('delete');
-         // console.log(removeArrEl(todoData, item.value));
-         // console.log(item.value);
-         // li.innerHTML = ``;
-         // render(); // рекурсивно вызываем функцию
+      toDoDeleteBtn.addEventListener('click', function () {
          localStorage.removeItem(item.value);
+         render(); // рекурсивно вызываем функцию
       });
 
       const toDoCompleteBtn = li.querySelector('.todo-complete');
-      toDoCompleteBtn.addEventListener('click', function() {
+      toDoCompleteBtn.addEventListener('click', function () {
          item.completed = !item.completed;
          render(); // рекурсивно вызываем функцию
       });
@@ -90,7 +70,8 @@ const render = function() {
    });
 };
 
-todoControl.addEventListener('submit', function(event) {
+
+todoControl.addEventListener('submit', function (event) {
    event.preventDefault(); // отключаем событие по умолчанию, теперь у нас страница не перезагружается 
 
    const newTodo = {
@@ -101,8 +82,9 @@ todoControl.addEventListener('submit', function(event) {
    if (isEmptyStr(headerInput.value)) {
       alert('Нельзя отправлять пустую строку!');
    } else {
-      localStorage.setItem(headerInput.value,false);
-      todoData.push(newTodo);
+      localStorage.setItem(headerInput.value, JSON.stringify(newTodo));
+      // todoData.push(newTodo);
+
       event.target.reset(); // очищаем поля формы 
    }
 
@@ -110,10 +92,10 @@ todoControl.addEventListener('submit', function(event) {
 });
 
 render(); // вызываем ее, как только запустилась страница 
-console.log(todoData);
+// console.log(todoData);
 
 // что нужно реализовать:
 // удаление записи
-// после добавления дела, поле "Какие планы?" должно очищаться 
-// нельзя добавлять пустое поле  
+// после добавления дела, поле "Какие планы?" должно очищаться
+// нельзя добавлять пустое поле
 // сохранять все необходимо в Local Storage и записывать из нее в массив todoData
