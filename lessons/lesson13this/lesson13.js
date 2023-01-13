@@ -129,4 +129,20 @@ add.apply(ten, [3, 4]);
 
 
 // 4 правило - привязка new, но чтобы понять это, нам надо понимать что такое констурктор в JS и классы 
+// если объект создан через оператор new, то ths будет указывать на этот объект 
 
+function Car(model, color) {
+   this.model = model;
+   this.color = color;
+}
+
+Car.prototype.ride = function() { 
+   console.log('ride');
+};
+
+console.dir(Car);
+let car1 = new Car('BMW', 'black');
+
+// this - это ссылка на новосозданный объект и мы обращаемся к его ключу model
+// и если этого ключа нет в новом объекте, то мы его создаем и присваимваем значение
+console.log('car1: ', car1);
