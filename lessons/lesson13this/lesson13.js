@@ -61,8 +61,8 @@ window.test(); // window - глобальный объект
 let obj = {
    x: 10,
    y: 15,
-   testFunc: function() {
-      console.log('this: ' , this.x);
+   testFunc: function () {
+      console.log('this: ', this.x);
    }
 };
 
@@ -88,12 +88,12 @@ let obj3 = {
    y: 20
 };
 
-function newTest() { 
-   console.log('this: ' , this);
+function newTest() {
+   console.log('this: ', this);
 }
 
 newTest.apply(obj3); // первым параметром передаем объект, тот который мы хотим првязать к контексту вызова this
-newTest.call(obj3); 
+newTest.call(obj3);
 
 // оба этих метода принимают в качестве первого параметра объект, на который будет ссылаться this, 
 // при вызове фуникции newTest
@@ -116,6 +116,16 @@ setTimeout(hardBind, 700, obj3);
 
 let foo = newTest.bind(obj3);
 foo();
+
+// пример отличие call от apply
+function add(c, d) {
+   console.log('sum: ', this.a + this.b + c + d);
+}
+var ten = { a: 1, b: 2 };
+add.call(ten, 3, 4);
+// logs => 10
+add.apply(ten, [3, 4]);
+ // logs => 10
 
 
 // 4 правило - привязка new, но чтобы понять это, нам надо понимать что такое констурктор в JS и классы 
