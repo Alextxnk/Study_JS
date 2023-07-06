@@ -78,26 +78,26 @@ let appData = {
    },
 
    start: function () {
-      if (appData.isEmptyStr(salaryAmount.value)) {
+      if (this.isEmptyStr(salaryAmount.value)) {
          alert('Ошибка, поле "Месячный доход" должно быть заполнено!');
          return;
-      } else if (!appData.isNumber(salaryAmount.value)) {
+      } else if (!this.isNumber(salaryAmount.value)) {
          alert('Ошибка, введите число!');
          return;
       }
    
-      appData.budget = Number(salaryAmount.value); // присваиваем значение инпута Месячный доход
-      console.log('appData.budget: ', appData.budget);
+      this.budget = Number(salaryAmount.value); // присваиваем значение инпута Месячный доход
+      console.log('this.budget: ', this.budget);
    
-      appData.getIncome(); // получение данных из формы Дополнительный доход
-      appData.getAddIncome(); // получение данных из формы Возможный доход
-      appData.getExpenses(); // получение данных из формы Обязательные расходы
-      appData.getAddExpenses(); // получение данных из формы Возможные расходы
-      appData.getAccumulatedMonth(); // Накопления за месяц
-      appData.getTargetMonth(); // Цель
-      appData.calcPeriod(); // сколько мы накопим за определенный период
-      appData.getBudgetDay(); // Дневной бюджет
-      appData.showResult(); // вывод результатов
+      this.getIncome(); // получение данных из формы Дополнительный доход
+      this.getAddIncome(); // получение данных из формы Возможный доход
+      this.getExpenses(); // получение данных из формы Обязательные расходы
+      this.getAddExpenses(); // получение данных из формы Возможные расходы
+      this.getAccumulatedMonth(); // Накопления за месяц
+      this.getTargetMonth(); // Цель
+      this.calcPeriod(); // сколько мы накопим за определенный период
+      this.getBudgetDay(); // Дневной бюджет
+      this.showResult(); // вывод результатов
    },
 
    // Добавить инпуты для формы Дополнительный доход
@@ -118,17 +118,17 @@ let appData = {
          let itemIncome = item.querySelector('.income-title').value;
          let cashIncome = item.querySelector('.income-amount').value;
 
-         if (!appData.isEmptyStr(itemIncome) && !appData.isEmptyStr(cashIncome) && !appData.isNumber(itemIncome) && appData.isNumber(cashIncome)) {
-            appData.income[itemIncome] = Number(cashIncome); // записываем в объект [ключ] = значение
+         if (!this.isEmptyStr(itemIncome) && !this.isEmptyStr(cashIncome) && !this.isNumber(itemIncome) && this.isNumber(cashIncome)) {
+            this.income[itemIncome] = Number(cashIncome); // записываем в объект [ключ] = значение
          } else {
             alert('Ошибка, неправильно заполнена форма Дополнительный доход!');
          }
       });
-      for (let key in appData.income) {
-            appData.incomeMonth += appData.income[key];
+      for (let key in this.income) {
+         this.incomeMonth += this.income[key];
          }
-      console.log('appData.incomeMonth: ', appData.incomeMonth);
-      console.log(appData.income);
+      console.log('this.incomeMonth: ', this.incomeMonth);
+      console.log(this.income);
    },
 
    // получение данных из формы Возможный доход
@@ -136,7 +136,7 @@ let appData = {
       additionalIncomeItem.forEach(function(item) {
          let itemValue = item.value.trim();
          if (itemValue !== '') {
-            appData.addIncome.push(itemValue);
+            this.addIncome.push(itemValue);
          }
       });
    },
@@ -159,17 +159,17 @@ let appData = {
          let itemExpenses = item.querySelector('.expenses-title').value;
          let cashExpenses = item.querySelector('.expenses-amount').value;
 
-         if (!appData.isEmptyStr(itemExpenses) && !appData.isEmptyStr(cashExpenses) && !appData.isNumber(itemExpenses) && appData.isNumber(cashExpenses)) {
-            appData.expenses[itemExpenses] = Number(cashExpenses); // записываем в объект [ключ] = значение
+         if (!this.isEmptyStr(itemExpenses) && !this.isEmptyStr(cashExpenses) && !this.isNumber(itemExpenses) && this.isNumber(cashExpenses)) {
+            this.expenses[itemExpenses] = Number(cashExpenses); // записываем в объект [ключ] = значение
          } else {
             alert('Ошибка, неправильно заполнена форма Обязательные расходы!');
          }
       });
-      for (let key in appData.expenses) {
-            appData.expensesMonth += appData.expenses[key];
+      for (let key in this.expenses) {
+         this.expensesMonth += this.expenses[key];
          }
-      console.log('appData.expensesMonth: ', appData.expensesMonth);
-      console.log(appData.expenses);
+      console.log('this.expensesMonth: ', this.expensesMonth);
+      console.log(this.expenses);
    },
 
    // получение данных из формы Возможные расходы
@@ -179,7 +179,7 @@ let appData = {
       addExpenses.forEach(function(item) {
          item = item.trim(); // удаление пробелов в начале и в конце
          if (item !== '') {
-            appData.addExpenses.push(item);
+            this.addExpenses.push(item);
          }
       });
    },
@@ -192,35 +192,35 @@ let appData = {
 
    // вывод результатов
    showResult: function() {
-      budgetMonthValue.value = appData.budget + appData.incomeMonth; // Месячный доход
-      budgetDayValue.value = appData.budgetDay; // Дневной бюджет
-      expensesMonthValue.value = appData.expensesMonth; // Расход за месяц
+      budgetMonthValue.value = this.budget + this.incomeMonth; // Месячный доход
+      budgetDayValue.value = this.budgetDay; // Дневной бюджет
+      expensesMonthValue.value = this.expensesMonth; // Расход за месяц
       // с помощью метода join разобьем на строку
-      additionalIncomeValue.value = appData.addIncome.join(', '); // Возможные доходы
-      additionalExpensesValue.value = appData.addExpenses.join(', '); // Возможные расходы 
-      incomePeriodValue.value = appData.calcPeriod(); // сколько мы накопим за определенный период
-      targetMonthValue.value = appData.numberOfMonths; // Срок достижения цели в месяцах
+      additionalIncomeValue.value = this.addIncome.join(', '); // Возможные доходы
+      additionalExpensesValue.value = this.addExpenses.join(', '); // Возможные расходы 
+      incomePeriodValue.value = this.calcPeriod(); // сколько мы накопим за определенный период
+      targetMonthValue.value = this.numberOfMonths; // Срок достижения цели в месяцах
    },
 
    // функция возвращает Накопления за месяц (Доходы минус расходы)
    getAccumulatedMonth: function () {
-      appData.accumulatedMonth = appData.budget + appData.incomeMonth - appData.expensesMonth;
+      this.accumulatedMonth = this.budget + this.incomeMonth - this.expensesMonth;
    },
 
    // функция возвращает результат за какой период будет достигнута цель
    getTargetMonth: function () {
       // округление до ближайшего целого в большую сторону
-      appData.numberOfMonths = Math.ceil(targetAmount.value / appData.accumulatedMonth);
+      this.numberOfMonths = Math.ceil(targetAmount.value / this.accumulatedMonth);
    }, 
 
    // сколько мы накопим за определенный период
    calcPeriod: function () {
-      return appData.accumulatedMonth * periodSelect.value;
+      return this.accumulatedMonth * periodSelect.value;
    },
 
    // Дневной бюджет
    getBudgetDay: function () {
-      appData.budgetDay = Math.floor(appData.accumulatedMonth / 30);
+      this.budgetDay = Math.floor(this.accumulatedMonth / 30);
    }
 };
 

@@ -146,3 +146,33 @@ let car1 = new Car('BMW', 'black');
 // this - это ссылка на новосозданный объект и мы обращаемся к его ключу model
 // и если этого ключа нет в новом объекте, то мы его создаем и присваимваем значение
 console.log('car1: ', car1);
+
+
+
+// this  - это ключевое слово, которое указывает на текущий контекст выполнения кода
+// чаще всего this является объектом 
+// this - object
+console.log(this);
+// изначально this ссылается на глобальный объект window
+
+// чаще всего this используется именно в объектах
+const user = {
+   name: 'Alex',
+   yearOfBirth: 2002,
+   getName() {
+      // return user.name;
+      return this.name;
+   },
+   calculateAge() {
+      const currentYear = new Date().getFullYear();
+      return currentYear - this.yearOfBirth;
+   },
+   getAllInfo: function() {
+      const age = this.calculateAge();
+      console.log(`Name: ${this.name}, age: ${age}`);
+   }
+};
+
+console.log('name:', user.getName());
+console.log('age:', user.calculateAge());
+user.getAllInfo();
